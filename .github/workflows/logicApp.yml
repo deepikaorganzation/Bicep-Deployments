@@ -42,9 +42,12 @@ jobs:
 
     - name: Read LogicApp JSON files and deploy
       run: |
+          logicapp=$(cat logicApp.json)
+          definition=$(echo $logicapp | jq -r '.definition | @json')
+
           az deployment group create \
             --resource-group "komatsu" \
             --template-file ./bicep/modules/logicApp.bicep \
             --parameters logicAppName="NewLogicAppPOCKX" \
-            --parameters definition=@logicApp.json
+            --parameters definition=definition
             

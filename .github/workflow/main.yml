@@ -3,7 +3,7 @@ name: Deploy ADF Components
 on:
   push:
     branches:
-      - 'feature/*'
+      - feature/deployAzureServices
 
 jobs: 
   
@@ -42,7 +42,7 @@ jobs:
     needs: build
     uses: ./.github/workflows/logicApp.yml
     with: 
-      branch: feature-ADF-code
+      branch: feature/deployAzureServices
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

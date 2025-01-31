@@ -6,41 +6,21 @@ on:
       - feature/deployAzureServices
 
 jobs: 
-  
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Log in to Azure
-        uses: azure/login@v2
-        with:
-          creds: |
-              {
-                "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
-                "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
-                "subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-                "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
-              }
             
-  # deploy-ADF:
-  #   needs: build
-  #   uses: ./.github/workflows/dataFactory.yml
-  #   with: 
-  #     branch: feature-ADF-code
-  #   secrets:
-  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  #     AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  deploy-ADF:
+    uses: ./.github/workflows/dataFactory.yml
+    with: 
+      branch: feature/deployAzureServices
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 
-            
-  deploy-LogicAPP:
-    needs: build
-    uses: ./.github/workflows/logicApp.yml
+  deploy-DataSets:
+    needs: deploy-ADF
+    uses: ./.github/workflows/dataSets.yml
     with: 
       branch: feature/deployAzureServices
     secrets:

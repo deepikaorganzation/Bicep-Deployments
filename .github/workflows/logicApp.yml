@@ -46,5 +46,5 @@ jobs:
             --resource-group "komatsu" \
             --template-file ./bicep/modules/logicApp.bicep \
             --parameters logicAppName="NewLogicAppPOCKX" \
-            --parameters definition=./logicApp.json \
+            --parameters definition=@logicApp.json
             

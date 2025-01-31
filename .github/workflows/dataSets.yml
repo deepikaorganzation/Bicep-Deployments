@@ -46,7 +46,6 @@ jobs:
             --resource-group "komatsu" \
             --template-file ./bicep/modules/dataSets.bicep \
             --parameters factoryName="WithoutJson" \
-            --parameters datasetName=JsonDataset \
             --parameters linkedServiceName=AzureBlobStorageLinkedService \
             --parameters containerName=outbound \
             --parameters fileName=TestInput.json      

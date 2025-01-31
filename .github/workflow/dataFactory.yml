@@ -1,0 +1,56 @@
+name: Deploy ADF LinkedService
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+
+env: 
+  keyVaultName: 'kx1-demo-dev'
+  connectionSecretName: 'kx-demo-constring-dev'
+  credentialSecretName: 'kx-demo-cred-dev'
+
+jobs:
+  
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install jq
+      run: sudo apt-get install jq
+
+    - name: Log in to Azure
+      uses: azure/login@v2
+      with:
+        creds: >
+              {
+                "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
+                "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
+                "subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+                "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
+              }
+        enable-AzPSSession: true
+
+    - name: Read linkedService JSON files and deploy
+      run: |
+          az deployment group create \
+            --resource-group "komatsu" \
+            --template-file ./bicep/modules/dataFactory.bicep \
+            --parameters dataFactoryName="WithoutJson" \
+            --parameters keyVaultName="${{env.keyVaultName}}" \
+            --parameters blobStorageSecretName="${{env.connectionSecretName}}" \
+            

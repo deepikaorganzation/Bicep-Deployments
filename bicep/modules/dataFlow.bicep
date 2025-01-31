@@ -28,20 +28,7 @@ resource dataFlow 'Microsoft.DataFactory/factories/dataflows@2018-06-01' = {
         }
       ]
       transformations: []  // You can add your transformations here
-      scriptLines: [
-        'source(output('
-        '          Name as string,'
-        '          Company as string'
-        '     ),'
-        '     allowSchemaDrift: true,'
-        '     validateSchema: false,'
-        '     ignoreNoFilesFound: false,'
-        '     documentForm: "singleDocument") ~> source1'
-        'source1 sink(allowSchemaDrift: true,'
-        '     validateSchema: false,'
-        '     skipDuplicateMapInputs: true,'
-        '     skipDuplicateMapOutputs: true) ~> sink1'
-      ]
+      scriptLines: []
     }
   }
 }

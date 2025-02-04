@@ -1,9 +1,17 @@
 name: Deploy ADF Components
 
 on:
-  push:
-    branches:
-      - feature/deployAzureServices
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment to deploy'
+        required: true
+        default: 'Dev'
+        type: choice
+        options:
+          - Dev
+          - Test
+          - Prod
 
 jobs: 
             

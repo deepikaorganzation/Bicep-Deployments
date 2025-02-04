@@ -1,0 +1,17 @@
+name: Deploy ADF Components
+
+on:
+  push:
+    branches:
+      - 'feature-*'
+    tags:
+      - 'v*'
+
+jobs: 
+  
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
